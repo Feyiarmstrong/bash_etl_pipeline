@@ -8,10 +8,15 @@ It covers file manipulation, automation, permissions management, scheduling with
 ## Project Structure
 
 data_pipeline/
+
 ├── input/        # Raw data files
+
 ├── output/       # Cleaned data output
+
 ├── logs/         # Logs of preprocessing and monitoring
+
 ├── preprocess.sh # Script to clean data
+
 ├── monitor.sh    # Script to check logs for errors
 
 ---
@@ -46,7 +51,9 @@ Saves cleaned data as:
 #!/bin/bash
 
 INPUT = ~/data_pipeline/input/sales_data.csv
+
 OUTPUT = ~/data_pipeline/output/cleaned_sales_data.csv
+
 LOG = ~/data_pipeline/logs/preprocess.log
 
 awk -F',' 'BEGIN{OFS=","} 
