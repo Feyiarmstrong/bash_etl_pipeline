@@ -1,13 +1,14 @@
 #!/bin/bash
 
-# Remove column 7, filter out Failed rows, and save as CSV
-awk '{$7=""; print $0}' ~/data_pipeline/input/sales_data.csv \
-| awk '$5 != "Failed"' \
-| awk 'BEGIN{OFS=","} {$1=$1; print}' \
-> ~/data_pipeline/output/cleaned_sales_data.csv
+# Paths
+INPUT=~/data_pipeline/input/sales_data.csv
+OUTPUT=~/data_pipeline/output/cleaned_sales_data.csv
+LOG=~/data_pipeline/logs/preprocess.log
 
-# Print success message
-echo "Preprocessing complete. Cleaned data saved to ~/data_pipeline/output/cleaned_sales_data.csv"
+# Preprocess: remove last column, filter out Failed rows
+awk -F',' 'BEGIN{OFS=","}
+NR==1 {print $1,$2,$3,$4,$5,$6; next}
+$6!="Failed" {print $1,$2,$3,$4,$5,$6}' "$INPUT" > "$OUTPUT" 2>> "$LOG"
 
-# Log action
-echo "$(date): Preprocessing completed successfully" >> ~/data_pipeline/logs/preprocess.log
+# Success message
+echo "Data preprocessing completed. Clean file saved to $OUTPUT" | tee -a "$LOG"
